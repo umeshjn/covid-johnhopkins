@@ -5,24 +5,8 @@ import altair as alt
 # Set the layout to wide mode (this will make the app take the full width)
 st.set_page_config(layout="wide")
 
-# Brief description about the app
-st.markdown("""
-### About this App
-
-This interactive app visualizes COVID-19 data for the **USA**, **India**, and the **United Kingdom**. The app displays:
-
-1. **COVID-19 Confirmed Cases**: A line chart showing the trend of confirmed cases over time for the three countries.
-2. **COVID-19 Deaths**: A bar chart that shows the total number of deaths in each country.
-
-The data is sourced from the Johns Hopkins University COVID-19 dataset, and is updated regularly to provide the most current numbers. You can use this app to track the spread and impact of the pandemic in these countries.
-
-### Features:
-
-- **Line chart** of confirmed cases over time for the USA, India, and the UK.
-- **Bar chart** of total deaths for the USA, India, and the UK.
-
-The app is designed to help you visualize key statistics and trends in the pandemic's progression.
-""")
+# Add a title to the app
+st.title("COVID-19 Data Dashboard")
 
 # Inject custom CSS to set the width to 80% and center it, and ensure scrollbar appears on the right
 st.markdown("""
@@ -108,7 +92,7 @@ df_cases_filtered = df_cases[df_cases['Country/Region'].isin(countries_to_plot)]
 df_deaths_filtered = df_deaths[df_deaths['Country/Region'].isin(countries_to_plot)]
 
 # Step 4: Line Graph for Cases Over Time (Using Altair)
-st.header("COVID-19 Confirmed Cases Over Time (USA, India, UK)")
+st.subheader("COVID-19 Confirmed Cases Over Time (USA, India, UK)")
 
 # Aggregate data: Sum up cases across all regions for each country and date
 df_cases_grouped = df_cases_filtered.groupby(['Date', 'Country/Region'])['Cases'].sum().reset_index()
@@ -119,8 +103,6 @@ line_chart = alt.Chart(df_cases_grouped).mark_line().encode(
     y='Cases:Q',  # Quantitative type for cases
     color='Country/Region:N',  # Different colors for each country
     tooltip=['Date:T', 'Cases:Q', 'Country/Region:N']  # Tooltips to show date, cases, and country
-).properties(
-    title='COVID-19 Confirmed Cases Over Time (USA, India, UK)'
 ).configure_axis(
     labelAngle=-45  # Rotate x-axis labels for better readability
 )
@@ -129,7 +111,7 @@ line_chart = alt.Chart(df_cases_grouped).mark_line().encode(
 st.altair_chart(line_chart, use_container_width=True)
 
 # Step 5: Bar Plot for Total Deaths (Latest Data for USA, India, UK)
-st.header("Total COVID-19 Deaths (Latest Data - USA, India, UK)")
+st.subheader("Total COVID-19 Deaths (Latest Data - USA, India, UK)")
 
 # Aggregate data: Get the latest deaths data for each country
 df_deaths_latest = df_deaths_filtered.groupby('Country/Region')['Deaths'].sum().reset_index()
@@ -140,8 +122,6 @@ bar_chart = alt.Chart(df_deaths_latest).mark_bar().encode(
     y='Country/Region:N',  # Categorical type for country on the y-axis (vertical axis)
     color='Country/Region:N',  # Different colors for each country
     tooltip=['Country/Region:N', 'Deaths:Q']  # Tooltips to show country and death count
-).properties(
-    title='Total COVID-19 Deaths (USA, India, UK)'
 )
 
 # Display the Altair horizontal bar plot in the Streamlit app (80% width, centered)
