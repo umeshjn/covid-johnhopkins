@@ -5,9 +5,24 @@ import altair as alt
 # Set the layout to wide mode (this will make the app take the full width)
 st.set_page_config(layout="wide")
 
-# Add a title to the app
-st.title("COVID-19 Data Dashboard")
+# Brief description about the app
+st.markdown("""
+### About this App
 
+This interactive app visualizes COVID-19 data for the **USA**, **India**, and the **United Kingdom**. The app displays:
+
+1. **COVID-19 Confirmed Cases**: A line chart showing the trend of confirmed cases over time for the three countries.
+2. **COVID-19 Deaths**: A bar chart that shows the total number of deaths in each country.
+
+The data is sourced from the Johns Hopkins University COVID-19 dataset, and is updated regularly to provide the most current numbers. You can use this app to track the spread and impact of the pandemic in these countries.
+
+### Features:
+
+- **Line chart** of confirmed cases over time for the USA, India, and the UK.
+- **Bar chart** of total deaths for the USA, India, and the UK.
+
+The app is designed to help you visualize key statistics and trends in the pandemic's progression.
+""")
 
 # Inject custom CSS to set the width to 80% and center it, and ensure scrollbar appears on the right
 st.markdown("""
@@ -93,7 +108,6 @@ df_cases_filtered = df_cases[df_cases['Country/Region'].isin(countries_to_plot)]
 df_deaths_filtered = df_deaths[df_deaths['Country/Region'].isin(countries_to_plot)]
 
 # Step 4: Line Graph for Cases Over Time (Using Altair)
-st.title("COVID-19 Data Dashboard")
 st.header("COVID-19 Confirmed Cases Over Time (USA, India, UK)")
 
 # Aggregate data: Sum up cases across all regions for each country and date
