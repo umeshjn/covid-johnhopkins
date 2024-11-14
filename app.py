@@ -99,12 +99,10 @@ df_cases_grouped = df_cases_filtered.groupby(['Date', 'Country/Region'])['Cases'
 
 # Create the Altair line plot for Cases
 line_chart = alt.Chart(df_cases_grouped).mark_line().encode(
-    x='Date:T',  # Temporal type for date
+    x=alt.X('Date:T', axis=alt.Axis(format='%Y-%b', labelAngle=-45)),  # Format date to show Year-Month and rotate labels
     y='Cases:Q',  # Quantitative type for cases
     color='Country/Region:N',  # Different colors for each country
     tooltip=['Date:T', 'Cases:Q', 'Country/Region:N']  # Tooltips to show date, cases, and country
-).configure_axis(
-    labelAngle=-45  # Rotate x-axis labels for better readability
 )
 
 # Display the Altair plot in the Streamlit app (80% width, centered)
